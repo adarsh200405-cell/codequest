@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Create account | CodeQuest</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body data-page="signup">
+    <header class="topbar"><a class="brand" href="index.html"><span class="brand-icon">&lt;/&gt;</span> CodeQuest</a>
+        <nav><a href="index.html">Home</a><a href="technology-map.html">Languages</a><a
+                href="lessons.html">Lessons</a><a href="careers.html">Careers</a></nav>
+        <div class="nav-actions"><a class="btn btn-ghost" href="login.html">Log in</a></div>
+    </header>
+    <main class="auth-layout signup-layout">
+        <section class="auth-aside"><span class="eyebrow">START YOUR QUEST</span>
+            <h1>Big things begin<br>with <span class="gradient-text">one line.</span></h1>
+            <p>Create your free account. Explore technology, practice coding concepts and track your progress.</p>
+            <div class="aside-note">✦ &nbsp; Your own learning journey, all in one place.</div>
+        </section>
+        <section class="auth-card">
+            <div class="auth-symbol">✦</div>
+            <h2>Create your account</h2>
+            <p class="muted">It only takes a minute to get started.</p>
+            <form id="signup-form"><label>Full name<input name="name" type="text" placeholder="Your name" minlength="2"
+                        required autocomplete="name"></label><label>Email address<input name="email" type="email"
+                        placeholder="you@example.com" required autocomplete="email"></label><label>Password<input
+                        name="password" type="password" placeholder="At least 8 characters" minlength="8" required
+                        autocomplete="new-password"></label><label>Your class<select name="classLevel" required>
+                        <option value="11">Class 11</option>
+                        <option value="12">Class 12</option>
+                    </select></label>
+                <div id="form-message" class="form-message" role="status"></div><button
+                    class="btn btn-primary btn-large full" type="submit">Create account <span>→</span></button>
+            </form>
+            <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+        </section>
+    </main>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>
