@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import Language from "./src/models/Language.js";
 import Lesson from "./src/models/Lesson.js";
 import Quiz from "./src/models/Quiz.js";
+import Playlist from "./src/models/Playlist.js";
 
 const languages = [
   { name:"Python", slug:"python", category:"Programming", difficulty:"Beginner", tagline:"Readable code for many kinds of problems.", description:"Python is a high-level, general-purpose programming language known for readable syntax and a large ecosystem.", uses:["AI and machine learning","Automation","Data analysis","Backend services"], strengths:["Readable syntax","Large learning community","Extensive libraries"], limitations:["Can be slower than compiled languages for some workloads","Dependency and environment management needs care"], exampleCode:'print("Hello, World!")', exampleOutput:"Hello, World!" },
@@ -19,6 +20,17 @@ const languages = [
   { name:"Rust", slug:"rust", category:"Systems", difficulty:"Advanced", tagline:"Build systems software with strong memory-safety guarantees.", description:"Rust is a systems programming language focused on performance and memory safety without a garbage collector.", uses:["Systems tools","Infrastructure","Performance-sensitive services"], strengths:["Memory safety guarantees","Performance"], limitations:["Ownership concepts take time to learn"], exampleCode:'fn main() { println!("Hello, World!"); }', exampleOutput:"Hello, World!" },
   { name:"PHP", slug:"php", category:"Web technology", difficulty:"Beginner", tagline:"A server-side language used in many web applications.", description:"PHP is a server-side scripting language used to build dynamic websites and backend systems.", uses:["Server-rendered websites","Content management systems","Web APIs"], strengths:["Broad hosting support","Mature web ecosystem"], limitations:["Project quality varies with architecture and conventions"], exampleCode:'<?php echo "Hello, World!"; ?>', exampleOutput:"Hello, World!" }
 ];
+
+const playlistRecords = languages.map((language) => ({
+  languageSlug: language.slug,
+  languageName: language.name,
+  title: `${language.name} complete course playlist`,
+  description: `Find beginner-friendly full courses and complete ${language.name} playlists. You can replace this search link with a specific playlist URL from your preferred educator.`,
+  playlistUrl: `https://www.youtube.com/results?search_query=${encodeURIComponent(`${language.name} programming complete course playlist for beginners`)}`,
+  playlistId: "",
+  level: "Beginner",
+  active: true
+}));
 
 const lessons = [
   { title:"What Is a Programming Language?", slug:"what-is-a-programming-language", languageSlug:"python", classLevels:[11,12], difficulty:"Beginner", estimatedMinutes:8, summary:"Understand how humans express instructions that computers can execute.", content:[
@@ -52,10 +64,11 @@ const quizzes = [
 
 await mongoose.connect(process.env.MONGODB_URI);
 await Promise.all([
-  Language.deleteMany({}), Lesson.deleteMany({}), Quiz.deleteMany({})
+  Language.deleteMany({}), Lesson.deleteMany({}), Quiz.deleteMany({}), Playlist.deleteMany({})
 ]);
 await Language.insertMany(languages);
 await Lesson.insertMany(lessons);
 await Quiz.insertMany(quizzes);
-console.log(`Seeded ${languages.length} languages, ${lessons.length} lessons, and ${quizzes.length} quizzes.`);
+await Playlist.insertMany(playlistRecords);
+console.log(`Seeded ${languages.length} languages, ${lessons.length} lessons, ${quizzes.length} quizzes, and ${playlistRecords.length} YouTube playlist links.`);
 await mongoose.disconnect();

@@ -1,0 +1,312 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Quiz and Practice | CodeQuest</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Main quiz layout */
+        .quiz-container {
+            max-width: 850px;
+            margin: 40px auto;
+        }
+
+        /* Quiz cards */
+        .quiz-panel {
+            padding: 28px;
+            margin-top: 24px;
+            border-radius: 16px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            color: #1f2937;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Force readable text inside quiz panels */
+        .quiz-panel h2,
+        .quiz-panel h3,
+        .quiz-panel p,
+        .quiz-panel label,
+        .quiz-panel span,
+        .quiz-panel div {
+            color: #1f2937;
+        }
+
+        .quiz-panel h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        #question-text {
+            color: #111827 !important;
+            font-size: 1.25rem;
+            line-height: 1.6;
+            margin: 24px 0;
+        }
+
+        #quiz-title {
+            color: #111827 !important;
+            font-size: 1.5rem;
+        }
+
+        /* Quiz selector and buttons */
+        .quiz-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+            align-items: center;
+        }
+
+        .quiz-controls select {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #111827 !important;
+            font-size: 1rem;
+        }
+
+        .quiz-controls select option {
+            background: #ffffff;
+            color: #111827;
+        }
+
+        /* Question options */
+        #options-area {
+            display: grid;
+            gap: 12px;
+        }
+
+        .question-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            background: #ffffff !important;
+            color: #1f2937 !important;
+            cursor: pointer;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .question-option:hover {
+            border-color: #7c3aed;
+            background: #f5f3ff !important;
+        }
+
+        .question-option span {
+            color: #1f2937 !important;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .question-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            accent-color: #7c3aed;
+            cursor: pointer;
+        }
+
+        /* Question progress */
+        .quiz-progress {
+            margin: 16px 0;
+            color: #4b5563 !important;
+            font-size: 1rem;
+        }
+
+        /* Status messages */
+        .quiz-message {
+            margin-top: 16px;
+            color: #b91c1c !important;
+            line-height: 1.5;
+        }
+
+        #status-message:empty {
+            display: none;
+        }
+
+        /* Results */
+        #score-text {
+            color: #166534 !important;
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        #answers-review {
+            display: grid;
+            gap: 14px;
+        }
+
+        #answers-review .question-option {
+            display: block;
+            cursor: default;
+        }
+
+        #answers-review h3 {
+            color: #1f2937 !important;
+            margin-top: 0;
+        }
+
+        #answers-review p {
+            color: #374151 !important;
+            line-height: 1.6;
+        }
+
+        /* Buttons */
+        #next-btn:disabled,
+        #load-quiz-btn:disabled,
+        #retry-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Hidden sections */
+        #question-area[hidden],
+        #result-area[hidden],
+        #status-message[hidden] {
+            display: none !important;
+        }
+
+        /* Mobile responsive layout */
+        @media (max-width: 600px) {
+            .quiz-container {
+                margin: 24px auto;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .quiz-panel {
+                padding: 18px;
+            }
+
+            .quiz-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .quiz-controls select,
+            .quiz-controls button,
+            .quiz-controls a {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            #question-text {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="topbar">
+        <a class="brand" href="index.html">
+            <span class="brand-icon">&lt;/&gt;</span>
+            CodeQuest
+        </a>
+
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="technology-map.html">Languages</a>
+            <a href="lessons.html">Lessons</a>
+        </nav>
+    </header>
+
+    <!-- Main content -->
+    <main class="page-shell quiz-container">
+
+        <span class="eyebrow">TEST YOUR KNOWLEDGE</span>
+
+        <h1>Quiz and Practice</h1>
+
+        <p class="muted">
+            Choose a quiz, answer the questions, and check your score.
+        </p>
+
+        <!-- Quiz selection -->
+        <section class="quiz-panel">
+            <h2>Select your quiz</h2>
+
+            <div class="quiz-controls">
+                <select id="quiz-select" aria-label="Select a quiz">
+                    <option value="">Loading quizzes...</option>
+                </select>
+
+                <button class="btn" id="load-quiz-btn" type="button">
+                    Load Quiz
+                </button>
+            </div>
+
+            <p
+                id="status-message"
+                class="quiz-message"
+                role="status"
+                aria-live="polite"
+            >
+                Connecting to CodeQuest API...
+            </p>
+        </section>
+
+        <!-- Questions -->
+        <section class="quiz-panel" id="question-area" hidden>
+
+            <h2 id="quiz-title">Quiz</h2>
+
+            <p class="quiz-progress" id="question-progress"></p>
+
+            <h3 id="question-text"></h3>
+
+            <form id="answer-form">
+                <div id="options-area"></div>
+
+                <div class="quiz-controls">
+                    <button class="btn" id="next-btn" type="submit">
+                        Next Question
+                    </button>
+                </div>
+            </form>
+
+        </section>
+
+        <!-- Quiz results -->
+        <section class="quiz-panel" id="result-area" hidden>
+
+            <h2>Quiz Results</h2>
+
+            <h3 id="score-text"></h3>
+
+            <div id="answers-review"></div>
+
+            <div class="quiz-controls">
+                <button class="btn" id="retry-btn" type="button">
+                    Try Again
+                </button>
+
+                <a class="btn btn-ghost" href="dashboard.html">
+                    Back to Dashboard
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- JavaScript files -->
+    <script src="js/api.js"></script>
+    <script src="js/quiz.js"></script>
+
+</body>
+</html>

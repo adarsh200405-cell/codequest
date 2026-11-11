@@ -1,1 +1,82 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Log in | CodeQuest</title><link rel="stylesheet" href="css/style.css"></head><body data-page="login"><header class="topbar"><a class="brand" href="index.html"><span class="brand-icon">&lt;/&gt;</span> CodeQuest</a><nav><a href="index.html">Home</a><a href="technology-map.html">Languages</a><a href="lessons.html">Lessons</a><a href="careers.html">Careers</a></nav><div class="nav-actions"><a class="btn btn-ghost" href="signup.html">Create account</a></div></header><main class="auth-layout"><section class="auth-aside"><span class="eyebrow">WELCOME BACK, BUILDER</span><h1>Your next big idea<br>is one lesson away.</h1><p>Pick up where you left off and keep turning curiosity into real skills.</p><div class="aside-note">✦ &nbsp; Learn at your pace. Grow on your terms.</div></section><section class="auth-card"><div class="auth-symbol">&lt;/&gt;</div><h2>Welcome back</h2><p class="muted">Log in to continue your CodeQuest journey.</p><form id="login-form"><label>Email address<input name="email" type="email" placeholder="you@example.com" required autocomplete="email"></label><label>Password<input name="password" type="password" placeholder="Enter your password" required autocomplete="current-password"></label><div id="form-message" class="form-message" role="status"></div><button class="btn btn-primary btn-large full" type="submit">Log in <span>→</span></button></form><p class="auth-switch">New to CodeQuest? <a href="signup.html">Create an account</a></p></section></main><script src="js/api.js"></script><script src="js/auth.js"></script></body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | CodeQuest</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <main class="auth-container">
+        <header class="auth-header">
+            <h1>CodeQuest</h1>
+            <p>Continue your coding journey.</p>
+        </header>
+
+        <section class="auth-card">
+            <h2>Welcome Back!</h2>
+            <p>Log in to access your learning dashboard.</p>
+
+            <form id="login-form" method="post">
+                <label for="email">Email address</label>
+
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    required
+                    autocomplete="email"
+                >
+
+                <label for="password">Password</label>
+
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    required
+                    autocomplete="current-password"
+                >
+
+                <p class="forgot-password-link">
+                    <a href="forgot-password.html">Forgot Password?</a>
+                </p>
+
+                <div
+                    id="form-message"
+                    class="form-message"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+                <button
+                    id="login-button"
+                    class="btn btn-primary btn-large full"
+                    type="submit"
+                >
+                    Log in <span aria-hidden="true">→</span>
+                </button>
+            </form>
+
+            <p class="auth-footer">
+                Don't have an account?
+                <a href="signup.html">Sign up</a>
+            </p>
+
+            <p class="back-home">
+                <a href="index.html">← Back to Home</a>
+            </p>
+        </section>
+    </main>
+
+    <!-- Load API helper before login logic -->
+    <script src="js/api.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

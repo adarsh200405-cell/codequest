@@ -1,4 +1,4 @@
-# CodeQuest — Learning Platform for Classes 11–12
+# CodeQuest â€” Learning Platform for Classes 11â€“12
 
 A beginner-friendly full-stack learning platform for students to explore programming languages, understand technology, take lessons and save personal progress.
 
@@ -11,23 +11,23 @@ A beginner-friendly full-stack learning platform for students to explore program
 ## Project structure
 ```text
 CodeQuest-MERN/
-├── frontend/
-│   ├── index.html
-│   ├── login.html
-│   ├── signup.html
-│   ├── dashboard.html
-│   ├── technology-map.html
-│   ├── lessons.html
-│   ├── careers.html
-│   ├── css/style.css
-│   └── js/{api.js,auth.js,app.js}
-└── backend/
-    ├── src/models/
-    ├── src/routes/
-    ├── src/middleware/
-    ├── server.js
-    ├── seed.js
-    └── .env.example
+â”œâ”€â”€ frontend/
+â”‚   â”œâ”€â”€ index.html
+â”‚   â”œâ”€â”€ login.html
+â”‚   â”œâ”€â”€ signup.html
+â”‚   â”œâ”€â”€ dashboard.html
+â”‚   â”œâ”€â”€ technology-map.html
+â”‚   â”œâ”€â”€ lessons.html
+â”‚   â”œâ”€â”€ careers.html
+â”‚   â”œâ”€â”€ css/style.css
+â”‚   â””â”€â”€ js/{api.js,auth.js,app.js}
+â””â”€â”€ backend/
+    â”œâ”€â”€ src/models/
+    â”œâ”€â”€ src/routes/
+    â”œâ”€â”€ src/middleware/
+    â”œâ”€â”€ server.js
+    â”œâ”€â”€ seed.js
+    â””â”€â”€ .env.example
 ```
 
 ## Requirements
@@ -50,7 +50,7 @@ Open `backend/.env` and set the values:
 ```env
 PORT=5000
 MONGODB_URI=mongodb://127.0.0.1:27017/codequest
-JWT_SECRET=replace_with_a_long_random_secret
+JWT_SECRET=replace_this_with_a_long_random_secret_before_running
 CLIENT_ORIGIN=http://127.0.0.1:5500
 ```
 
@@ -81,6 +81,8 @@ Do not double-click the HTML file to open it as `file://...`; use Live Server so
 ## Features
 - Signup/login with password hashing and JWT authentication
 - Language directory loaded from MongoDB, with search and category filter
+- YouTube playlist links for every seeded language, loaded from MongoDB through `/api/playlists`
+- Actual playlist embeds when a playlist record contains a YouTube playlist ID (`?list=...`); seeded links initially open YouTube search results so you can select a current full-course playlist
 - Lessons loaded from MongoDB and lesson completion saved per signed-in student
 - Student dashboard with individual lesson progress and quiz-attempt stats
 - Technology and career exploration pages
@@ -92,3 +94,20 @@ The backend includes an admin-only language creation endpoint. To promote a trus
 
 ## Production notes
 This is a learning starter, not a production-hardened service. Before deployment, use HTTPS, a strong unique secret, strict CORS settings, input validation, account recovery and email verification, database backups, and age-appropriate privacy safeguards. Never execute arbitrary user-submitted code on the server.
+
+
+## YouTube playlists
+The seed script creates one playlist resource for every language currently listed in CodeQuest. By default, each opens a YouTube search for beginner-friendly complete-course playlists; this avoids hard-coding unverified or outdated playlist IDs. Once you choose a playlist, an admin can save its exact YouTube URL with `PUT /api/playlists/:languageSlug` using a JWT belonging to an account whose MongoDB `role` is `admin`. A URL containing `?list=PLAYLIST_ID` is embedded directly in the language card.
+
+Example request body:
+```json
+{
+  "title": "Python full course playlist",
+  "description": "Start here and follow the lessons in order.",
+  "playlistUrl": "https://www.youtube.com/playlist?list=YOUR_REAL_PLAYLIST_ID",
+  "level": "Beginner",
+  "active": true
+}
+```
+
+The playlist API is public for reading (`GET /api/playlists` and `GET /api/playlists/:languageSlug`); editing requires authentication and the admin role. Replace `YOUR_REAL_PLAYLIST_ID` with an actual playlist ID copied from YouTube.
