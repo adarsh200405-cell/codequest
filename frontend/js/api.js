@@ -1,5 +1,10 @@
-
-const API_BASE = "http://127.0.0.1:5000/api";
+﻿const API_BASE = (
+    window.CODEQUEST_API_URL ||
+    (window.location.hostname === "localhost" ||
+     window.location.hostname === "127.0.0.1"
+        ? "http://127.0.0.1:5000/api"
+        : "https://YOUR-BACKEND-PROJECT.vercel.app/api")
+).replace(/\/+$/, "");
 
 async function api(path, options = {}) {
     const token = localStorage.getItem("codequest_token");
@@ -10,7 +15,9 @@ async function api(path, options = {}) {
         ...(options.headers || {})
     };
 
-    const url = `${API_BASE}${path}`;
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    const url = `${API_BASE}${normalizedPath}`;
+
     console.log("[CodeQuest API] Request:", url);
 
     let response;
@@ -23,7 +30,7 @@ async function api(path, options = {}) {
     } catch (error) {
         console.error("[CodeQuest API] Connection failed:", error);
         throw new Error(
-            "Cannot connect to API. Check that the backend is running on port 5000."
+            "Cannot connect to CodeQuest API. Check your internet connection or backend deployment."
         );
     }
 

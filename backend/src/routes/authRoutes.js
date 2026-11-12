@@ -10,6 +10,10 @@ import { requireAuth } from "../middleware/auth.js";
 const router = Router();
 const RESET_TOKEN_EXPIRY_MINUTES = 15;
 
+const FRONTEND_URL = (
+  process.env.FRONTEND_URL || "http://127.0.0.1:5500"
+).replace(/\/+$/, "");
+
 // Public user data only
 const publicUser = (user) => ({
   id: user._id,
@@ -188,9 +192,9 @@ router.post("/forgot-password", async (req, res, next) => {
 
     await user.save();
 
-    // Must match the actual Live Server frontend URL
+    // Generate reset link for local or deployed frontend
     const resetUrl =
-  `http://127.0.0.1:5500/CodeQuest-MERN/frontend/reset-password.html?token=${rawToken}`;
+      `${FRONTEND_URL}/reset-password.html?token=${encodeURIComponent(rawToken)}`;
 
     try {
       const mailer = createMailer();
